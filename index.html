@@ -143,13 +143,20 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.5rem;
             color: #f0f6fc;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
         }
 
         .repo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-top: 1.5rem;
         }
 
         .repo-card {
@@ -206,12 +213,10 @@
             margin-right: 4px;
         }
 
-        .loading {
-            text-align: center;
-            grid-column: 1 / -1;
-            font-size: 1.2rem;
+        .loading-text {
             color: var(--text-muted);
-            padding: 4rem;
+            font-style: italic;
+            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -259,16 +264,31 @@
         </header>
 
         <main>
-            <section>
-                <h2>Standalone Repositories & Data Products</h2>
-                <div class="repo-grid" id="featured-box">
-                    <div class="loading">Loading repositories...</div>
+            <!-- Category 1 -->
+            <section id="sec-products">
+                <h2>📦 End-to-End Data Products & Pipelines</h2>
+                <p class="section-desc">Standalone applications, automated data flows, and production-ready toolkits designed for scaling backend operations.</p>
+                <div class="repo-grid" id="box-products">
+                    <div class="loading-text">Scanning for repositories tagged with 'data-product'...</div>
                 </div>
             </section>
 
-            <section id="contributions-section" style="display:none;">
-                <h2>Contributions & Ecosystem Work</h2>
-                <div class="repo-grid" id="forks-box"></div>
+            <!-- Category 2 -->
+            <section id="sec-insights">
+                <h2>📊 Domain-Specific Insights & Core Models</h2>
+                <p class="section-desc">Predictive workflows, strategic data deep-dives, and statistical modeling applied directly to FinTech, Telecom, and EdTech fields.</p>
+                <div class="repo-grid" id="box-insights">
+                    <div class="loading-text">Scanning for repositories tagged with 'domain-insight'...</div>
+                </div>
+            </section>
+
+            <!-- Category 3 -->
+            <section id="sec-ecosystems">
+                <h2>🛠️ Shared Analytics & Engineering Ecosystems</h2>
+                <p class="section-desc">Collaborative projects, core environment configurations, forks, and exploratory scripts demonstrating systems architectural support.</p>
+                <div class="repo-grid" id="box-ecosystems">
+                    <div class="loading-text">Loading baseline repositories...</div>
+                </div>
             </section>
         </main>
     </div>
@@ -285,63 +305,75 @@
             'Shell': '#89e051'
         };
 
+        function createCard(repo) {
+            const card = document.createElement('div');
+            card.className = 'repo-card';
+            
+            const langColor = langColors[repo.language] || '#8b949e';
+            const langSpan = repo.language 
+                ? `<span><span class="lang-dot" style="background-color: ${langColor}"></span>${repo.language}</span>` 
+                : '';
+
+            card.innerHTML = `
+                <div>
+                    <h3 class="repo-title">
+                        <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+                    </h3>
+                    <p class="repo-desc">${repo.description || 'No project description added yet. Click to view repository files.'}</p>
+                </div>
+                <div class="repo-meta">
+                    ${langSpan}
+                    <span>⭐ ${repo.stargazers_count}</span>
+                </div>
+            `;
+            return card;
+        }
+
         async function fetchRepos() {
-            const featuredBox = document.getElementById('featured-box');
-            const forksBox = document.getElementById('forks-box');
-            const contributionsSection = document.getElementById('contributions-section');
+            const boxProducts = document.getElementById('box-products');
+            const boxInsights = document.getElementById('box-insights');
+            const boxEcosystems = document.getElementById('box-ecosystems');
 
             try {
-                const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+                // Fetch user repos using the custom header to retrieve topics
+                const repoRes = await fetch(
+                    `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`,
+                    { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+                );
                 const repos = await repoRes.json();
                 
-                featuredBox.innerHTML = ''; 
-                forksBox.innerHTML = '';
+                // Reset standard HTML placeholders
+                boxProducts.innerHTML = '';
+                boxInsights.innerHTML = '';
+                boxEcosystems.innerHTML = '';
 
-                let hasSources = false;
-                let hasForks = false;
+                let counts = { products: 0, insights: 0, ecosystems: 0 };
 
                 repos.forEach(repo => {
-                    const card = document.createElement('div');
-                    card.className = 'repo-card';
-                    
-                    const langColor = langColors[repo.language] || '#8b949e';
-                    const langSpan = repo.language 
-                        ? `<span><span class="lang-dot" style="background-color: ${langColor}"></span>${repo.language}</span>` 
-                        : '';
+                    const card = createCard(repo);
+                    const topics = repo.topics || [];
 
-                    card.innerHTML = `
-                        <div>
-                            <h3 class="repo-title">
-                                <a href="${repo.html_url}" target="_blank">${repo.name}</a>
-                            </h3>
-                            <p class="repo-desc">${repo.description || 'No project description added yet. Click to inspect repository files.'}</p>
-                        </div>
-                        <div class="repo-meta">
-                            ${langSpan}
-                            <span>⭐ ${repo.stargazers_count}</span>
-                        </div>
-                    `;
-
-                    if (!repo.fork) {
-                        featuredBox.appendChild(card);
-                        hasSources = true;
+                    // Evaluate category routing
+                    if (!repo.fork && topics.includes('data-product')) {
+                        boxProducts.appendChild(card);
+                        counts.products++;
+                    } else if (!repo.fork && topics.includes('domain-insight')) {
+                        boxInsights.appendChild(card);
+                        counts.insights++;
                     } else {
-                        forksBox.appendChild(card);
-                        hasForks = true;
+                        boxEcosystems.appendChild(card);
+                        counts.ecosystems++;
                     }
                 });
 
-                if (!hasSources) {
-                    featuredBox.innerHTML = '<div class="loading">No standalone public repositories found.</div>';
-                }
-
-                if (hasForks) {
-                    contributionsSection.style.display = 'block';
-                }
+                // Display falling fallbacks if categories are empty
+                if(counts.products === 0) boxProducts.innerHTML = '<div class="loading-text">No projects currently tagged with "data-product".</div>';
+                if(counts.insights === 0) boxInsights.innerHTML = '<div class="loading-text">No projects currently tagged with "domain-insight".</div>';
+                if(counts.ecosystems === 0) boxEcosystems.innerHTML = '<div class="loading-text">No baseline repositories found.</div>';
 
             } catch (error) {
                 console.error(error);
-                featuredBox.innerHTML = '<div class="loading">Failed to load live data portfolio.</div>';
+                boxProducts.innerHTML = '<div class="loading-text">Failed to cluster portfolio datasets.</div>';
             }
         }
 
