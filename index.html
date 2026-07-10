@@ -362,6 +362,11 @@
                 let counts = { products: 0, insights: 0, ecosystems: 0 };
 
                 repos.forEach(repo => {
+                    // Check if this is the core portfolio repository itself; if so, skip showing it completely
+                    if (repo.name.toLowerCase() === `${username.toLowerCase()}.github.io`) {
+                        return; 
+                    }
+
                     const card = createCard(repo);
                     const topics = repo.topics || [];
 
