@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JuilienH | Portfolio</title>
+    <title>JuilienH | Data Science & Product Portfolio</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -11,6 +11,7 @@
             --text-color: #c9d1d9;
             --text-muted: #8b949e;
             --accent-color: #58a6ff;
+            --pill-bg: #1f6feb;
             --border-color: #30363d;
         }
 
@@ -24,52 +25,89 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
 
         header {
             text-align: center;
-            padding: 3.5rem 0;
+            padding: 4rem 0 2.5rem 0;
             border-bottom: 1px solid var(--border-color);
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: #f0f6fc;
+            letter-spacing: -0.5px;
         }
 
-        header p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
+        .subtitle {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            font-weight: 500;
             margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .bio {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .pillars {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .pillar-tag {
+            background-color: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .profile-btn {
-            background-color: #21262d;
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem 1rem;
+            background-color: #238636;
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
             border-radius: 6px;
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 0.95rem;
+            font-weight: 600;
             transition: background-color 0.2s;
+            display: inline-block;
         }
 
         .profile-btn:hover {
-            background-color: #30363d;
-            border-color: #8b949e;
+            background-color: #2ea44f;
+        }
+
+        section {
+            margin-top: 3.5rem;
+        }
+
+        section h2 {
+            font-size: 1.6rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            color: #f0f6fc;
         }
 
         .repo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-top: 3rem;
+            margin-top: 1.5rem;
         }
 
         .repo-card {
@@ -84,13 +122,13 @@
         }
 
         .repo-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-3px);
             border-color: var(--accent-color);
         }
 
         .repo-title {
-            font-size: 1.2rem;
-            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            margin: 0 0 0.6rem 0;
         }
 
         .repo-title a {
@@ -112,19 +150,18 @@
 
         .repo-meta {
             display: flex;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            gap: 1rem;
+            gap: 1.2rem;
             align-items: center;
         }
 
         .lang-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             display: inline-block;
-            background-color: var(--accent-color);
-            vertical-align: middle;
+            background-color: #ff5722; /* Fallback color */
             margin-right: 4px;
         }
 
@@ -133,7 +170,7 @@
             grid-column: 1 / -1;
             font-size: 1.2rem;
             color: var(--text-muted);
-            padding: 3rem;
+            padding: 4rem;
         }
     </style>
 </head>
@@ -142,24 +179,58 @@
     <div class="container">
         <header>
             <h1 id="user-name">JuilienH</h1>
-            <p id="user-bio">Loading GitHub profile information...</p>
-            <a href="https://github.com/JuilienH" target="_blank" class="profile-btn">View on GitHub</a>
+            <div class="subtitle">Data Scientist & Data Product Manager</div>
+            <p class="bio" id="user-bio">
+                Bridging data engineering, predictive modeling, and product strategy to deploy high-impact analytics across core industry domains.
+            </p>
+            
+            <div class="pillars">
+                <span class="pillar-tag">📈 Fintech & Mortgages</span>
+                <span class="pillar-tag">📡 Telecom Analytics</span>
+                <span class="pillar-tag">🎓 EdTech & Student Data</span>
+                <span class="pillar-tag">🚀 Data Products</span>
+            </div>
+
+            <a href="https://github.com/JuilienH" target="_blank" class="profile-btn">Explore GitHub Profile</a>
         </header>
 
         <main>
-            <div class="repo-grid" id="repo-box">
-                <div class="loading">Fetching repositories from GitHub...</div>
-            </div>
+            <!-- Core Projects Section -->
+            <section>
+                <h2>Featured Data Products & Projects</h2>
+                <div class="repo-grid" id="featured-box">
+                    <div class="loading">Mapping repositories...</div>
+                </div>
+            </section>
+
+            <!-- Other Open Source Contributions Section -->
+            <section id="contributions-section" style="display:none;">
+                <h2>Contributions & Ecosystem Work</h2>
+                <div class="repo-grid" id="forks-box"></div>
+            </section>
         </main>
     </div>
 
     <script>
         const username = 'JuilienH'; 
+        
+        // Dynamic styling dictionary for standard data science languages
+        const langColors = {
+            'Python': '#3572A5',
+            'R': '#198CE7',
+            'SQL': '#e38c00',
+            'Jupyter Notebook': '#DA5B0B',
+            'HTML': '#e34c26',
+            'Shell': '#89e051'
+        };
 
         async function fetchRepos() {
-            const repoBox = document.getElementById('repo-box');
+            const featuredBox = document.getElementById('featured-box');
+            const forksBox = document.getElementById('forks-box');
+            const contributionsSection = document.getElementById('contributions-section');
+
             try {
-                // Fetch profile data
+                // Fetch GitHub user data
                 const userRes = await fetch(`https://api.github.com/users/${username}`);
                 if(userRes.ok) {
                     const userData = await userRes.json();
@@ -167,42 +238,58 @@
                     if(userData.bio) document.getElementById('user-bio').innerText = userData.bio;
                 }
 
-                // Fetch repositories (sorted by most recently updated)
+                // Fetch repositories up to 100 entries sorted by recent updates
                 const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
                 const repos = await repoRes.json();
                 
-                repoBox.innerHTML = ''; 
+                featuredBox.innerHTML = ''; 
+                forksBox.innerHTML = '';
 
-                // Filters out repositories you've forked so your original work shines
-                const mySources = repos.filter(repo => !repo.fork);
+                let hasSources = false;
+                let hasForks = false;
 
-                if (mySources.length === 0) {
-                    repoBox.innerHTML = '<div class="loading">No public repositories found.</div>';
-                    return;
-                }
-
-                mySources.forEach(repo => {
+                repos.forEach(repo => {
                     const card = document.createElement('div');
                     card.className = 'repo-card';
                     
+                    const langColor = langColors[repo.language] || '#8b949e';
+                    const langSpan = repo.language 
+                        ? `<span><span class="lang-dot" style="background-color: ${langColor}"></span>${repo.language}</span>` 
+                        : '';
+
                     card.innerHTML = `
                         <div>
                             <h3 class="repo-title">
                                 <a href="${repo.html_url}" target="_blank">${repo.name}</a>
                             </h3>
-                            <p class="repo-desc">${repo.description || 'No description provided.'}</p>
+                            <p class="repo-desc">${repo.description || 'No project description added yet. Click to view repository files.'}</p>
                         </div>
                         <div class="repo-meta">
-                            ${repo.language ? `<span><span class="lang-dot"></span>${repo.language}</span>` : ''}
+                            ${langSpan}
                             <span>⭐ ${repo.stargazers_count}</span>
                         </div>
                     `;
-                    repoBox.appendChild(card);
+
+                    if (!repo.fork) {
+                        featuredBox.appendChild(card);
+                        hasSources = true;
+                    } else {
+                        forksBox.appendChild(card);
+                        hasForks = true;
+                    }
                 });
+
+                if (!hasSources) {
+                    featuredBox.innerHTML = '<div class="loading">No public standalone repositories found.</div>';
+                }
+
+                if (hasForks) {
+                    contributionsSection.style.display = 'block';
+                }
 
             } catch (error) {
                 console.error(error);
-                repoBox.innerHTML = '<div class="loading">Oops! Failed to load repositories.</div>';
+                featuredBox.innerHTML = '<div class="loading">Failed to build portfolio metrics from the API.</div>';
             }
         }
 
