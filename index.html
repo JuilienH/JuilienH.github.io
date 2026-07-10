@@ -283,7 +283,7 @@
                 <h2>📦 End-to-End Data Products & Enterprise Pipelines</h2>
                 <p class="section-desc">Production-grade applications, structured data architectures, and automation systems delivered under rigorous technical scope controls.</p>
                 <div class="repo-grid" id="box-products">
-                    <div class="loading-text">Scanning for repositories tagged with 'data-product'...</div>
+                    <div class="loading-text">Loading architectures...</div>
                 </div>
             </section>
 
@@ -292,7 +292,7 @@
                 <h2>📊 Domain Solutions & Statistical Risk Models</h2>
                 <p class="section-desc">Predictive analytics deep-dives and classification workflows applied to mitigate risks and surface business intelligence across compliance-heavy sectors.</p>
                 <div class="repo-grid" id="box-insights">
-                    <div class="loading-text">Scanning for repositories tagged with 'domain-insight'...</div>
+                    <div class="loading-text">Loading statistical solutions...</div>
                 </div>
             </section>
 
@@ -318,6 +318,15 @@
             'HTML': '#e34c26',
             'Shell': '#89e051'
         };
+
+        // Explicit explicit rules mapping for targeted repositories
+        const forceProducts = [
+            'ml_depth_creating_models', 
+            'leverage-excel-as-the-ide-and-shorten-the-data-pipelines-by-working-on-the-all-in-one-application'
+        ];
+        const forceInsights = [
+            'sum_score_validation_in_survey'
+        ];
 
         function createCard(repo) {
             const card = document.createElement('div');
@@ -362,18 +371,19 @@
                 let counts = { products: 0, insights: 0, ecosystems: 0 };
 
                 repos.forEach(repo => {
-                    // Check if this is the core portfolio repository itself; if so, skip showing it completely
                     if (repo.name.toLowerCase() === `${username.toLowerCase()}.github.io`) {
                         return; 
                     }
 
                     const card = createCard(repo);
                     const topics = repo.topics || [];
+                    const repoLowerName = repo.name.toLowerCase();
 
-                    if (!repo.fork && topics.includes('data-product')) {
+                    // Sort based on explicit forced rules or tags
+                    if (forceProducts.includes(repoLowerName) || (!repo.fork && topics.includes('data-product'))) {
                         boxProducts.appendChild(card);
                         counts.products++;
-                    } else if (!repo.fork && topics.includes('domain-insight')) {
+                    } else if (forceInsights.includes(repoLowerName) || (!repo.fork && topics.includes('domain-insight'))) {
                         boxInsights.appendChild(card);
                         counts.insights++;
                     } else {
@@ -382,8 +392,8 @@
                     }
                 });
 
-                if(counts.products === 0) boxProducts.innerHTML = '<div class="loading-text">No projects currently tagged with "data-product".</div>';
-                if(counts.insights === 0) boxInsights.innerHTML = '<div class="loading-text">No projects currently tagged with "domain-insight".</div>';
+                if(counts.products === 0) boxProducts.innerHTML = '<div class="loading-text">No projects currently categorized under Data Products.</div>';
+                if(counts.insights === 0) boxInsights.innerHTML = '<div class="loading-text">No projects currently categorized under Statistical Models.</div>';
                 if(counts.ecosystems === 0) boxEcosystems.innerHTML = '<div class="loading-text">No baseline repositories found.</div>';
 
             } catch (error) {
