@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JuilienH | Data Science & Product Portfolio</title>
+    <title>JuilienH | Data Product & Engineering Portfolio</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -11,8 +11,9 @@
             --text-color: #c9d1d9;
             --text-muted: #8b949e;
             --accent-color: #58a6ff;
-            --pill-bg: #1f6feb;
             --border-color: #30363d;
+            --pm-accent: #ff7b72;
+            --dev-accent: #79c0ff;
         }
 
         body {
@@ -32,7 +33,7 @@
 
         header {
             text-align: center;
-            padding: 4rem 0 2.5rem 0;
+            padding: 3.5rem 0 2rem 0;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -48,32 +49,45 @@
             font-size: 1.3rem;
             font-weight: 500;
             margin-top: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .bio {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 2rem auto;
+        /* Skill Showcase Grid */
+        .skills-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
         }
 
-        .pillars {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .pillar-tag {
-            background-color: #21262d;
+        .skill-showcase-card {
+            background-color: #1f242c;
             border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .skill-showcase-card h3 {
+            margin-top: 0;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pm-title { color: var(--pm-accent); }
+        .dev-title { color: var(--dev-accent); }
+
+        .skill-showcase-card ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            font-size: 0.95rem;
             color: var(--text-color);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+        }
+
+        .skill-showcase-card li {
+            margin-bottom: 0.5rem;
         }
 
         .profile-btn {
@@ -86,6 +100,7 @@
             font-weight: 600;
             transition: background-color 0.2s;
             display: inline-block;
+            margin-top: 1rem;
         }
 
         .profile-btn:hover {
@@ -161,7 +176,6 @@
             height: 10px;
             border-radius: 50%;
             display: inline-block;
-            background-color: #ff5722; /* Fallback color */
             margin-right: 4px;
         }
 
@@ -180,32 +194,41 @@
         <header>
             <h1 id="user-name">JuilienH</h1>
             <div class="subtitle">Data Scientist & Data Product Manager</div>
-            <p class="bio" id="user-bio">
-                Bridging data engineering, predictive modeling, and product strategy to deploy high-impact analytics across core industry domains.
-            </p>
             
-            <div class="pillars">
-                <span class="pillar-tag">📈 Fintech & Mortgages</span>
-                <span class="pillar-tag">📡 Telecom Analytics</span>
-                <span class="pillar-tag">🎓 EdTech & Student Data</span>
-                <span class="pillar-tag">🚀 Data Products</span>
+            <!-- Skills & Competencies Showcase Box -->
+            <div class="skills-summary-grid">
+                <div class="skill-showcase-card">
+                    <h3 class="pm-title">📋 Product Management Skills</h3>
+                    <ul>
+                        <li><strong>Data Product Strategy:</strong> Scoping data requirements, managing end-to-end analytics lifecycles, and translating complex metrics into business value.</li>
+                        <li><strong>Domain Expertise:</strong> Shipping analytics solutions within specialized sectors: FinTech (mortgages), Telecom networks, and EdTech (student data).</li>
+                        <li><strong>Cross-functional Alignment:</strong> Bridging the gap between engineering backlogs and executive-level analytical goals.</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-showcase-card">
+                    <h3 class="dev-title">💻 Development & Analytics Skills</h3>
+                    <ul>
+                        <li><strong>Predictive Modeling:</strong> Building machine learning workflows, risk scorecards, and predictive pipelines using Python and R.</li>
+                        <li><strong>Data Architecture & SQL:</strong> Structuring and optimizing complex queries to mine, transform, and clean messy real-world datasets.</li>
+                        <li><strong>Production Systems:</strong> Translating local Jupyter environments into reproducible scripts, frameworks, or operational codebases.</li>
+                    </ul>
+                </div>
             </div>
 
             <a href="https://github.com/JuilienH" target="_blank" class="profile-btn">Explore GitHub Profile</a>
         </header>
 
         <main>
-            <!-- Core Projects Section -->
             <section>
-                <h2>Featured Data Products & Projects</h2>
+                <h2>Standalone Repositories & Data Products</h2>
                 <div class="repo-grid" id="featured-box">
-                    <div class="loading">Mapping repositories...</div>
+                    <div class="loading">Loading repositories...</div>
                 </div>
             </section>
 
-            <!-- Other Open Source Contributions Section -->
             <section id="contributions-section" style="display:none;">
-                <h2>Contributions & Ecosystem Work</h2>
+                <h2>Contributions & Shared Environments</h2>
                 <div class="repo-grid" id="forks-box"></div>
             </section>
         </main>
@@ -214,7 +237,6 @@
     <script>
         const username = 'JuilienH'; 
         
-        // Dynamic styling dictionary for standard data science languages
         const langColors = {
             'Python': '#3572A5',
             'R': '#198CE7',
@@ -230,15 +252,12 @@
             const contributionsSection = document.getElementById('contributions-section');
 
             try {
-                // Fetch GitHub user data
                 const userRes = await fetch(`https://api.github.com/users/${username}`);
                 if(userRes.ok) {
                     const userData = await userRes.json();
                     if(userData.name) document.getElementById('user-name').innerText = userData.name;
-                    if(userData.bio) document.getElementById('user-bio').innerText = userData.bio;
                 }
 
-                // Fetch repositories up to 100 entries sorted by recent updates
                 const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
                 const repos = await repoRes.json();
                 
@@ -262,7 +281,7 @@
                             <h3 class="repo-title">
                                 <a href="${repo.html_url}" target="_blank">${repo.name}</a>
                             </h3>
-                            <p class="repo-desc">${repo.description || 'No project description added yet. Click to view repository files.'}</p>
+                            <p class="repo-desc">${repo.description || 'No custom repository description provided yet.'}</p>
                         </div>
                         <div class="repo-meta">
                             ${langSpan}
@@ -280,7 +299,7 @@
                 });
 
                 if (!hasSources) {
-                    featuredBox.innerHTML = '<div class="loading">No public standalone repositories found.</div>';
+                    featuredBox.innerHTML = '<div class="loading">No standalone public repositories found.</div>';
                 }
 
                 if (hasForks) {
@@ -289,7 +308,7 @@
 
             } catch (error) {
                 console.error(error);
-                featuredBox.innerHTML = '<div class="loading">Failed to build portfolio metrics from the API.</div>';
+                featuredBox.innerHTML = '<div class="loading">Failed to load live data portfolio.</div>';
             }
         }
 
