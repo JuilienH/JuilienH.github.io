@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JuilienH | Data Product & Engineering Portfolio</title>
+    <title>JuilienH | Data Science & Product Management Portfolio</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -32,9 +32,13 @@
         }
 
         header {
-            text-align: center;
             padding: 3.5rem 0 2rem 0;
             border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-top {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
         header h1 {
@@ -52,13 +56,32 @@
             margin-bottom: 1.5rem;
         }
 
+        .about-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .about-box h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: #f0f6fc;
+        }
+
+        .about-box p {
+            color: var(--text-color);
+            font-size: 1.05rem;
+            margin: 0;
+        }
+
         /* Skill Showcase Grid */
         .skills-summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
-            text-align: left;
         }
 
         .skill-showcase-card {
@@ -90,6 +113,11 @@
             margin-bottom: 0.5rem;
         }
 
+        .profile-btn-container {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
         .profile-btn {
             background-color: #238636;
             color: #ffffff;
@@ -100,7 +128,6 @@
             font-weight: 600;
             transition: background-color 0.2s;
             display: inline-block;
-            margin-top: 1rem;
         }
 
         .profile-btn:hover {
@@ -192,31 +219,43 @@
 
     <div class="container">
         <header>
-            <h1 id="user-name">JuilienH</h1>
-            <div class="subtitle">Data Scientist & Data Product Manager</div>
+            <div class="header-top">
+                <h1>JuilienH</h1>
+                <div class="subtitle">Data Scientist & Data Product Manager</div>
+            </div>
+
+            <!-- Profile Summary Section -->
+            <div class="about-box">
+                <h2>About Me</h2>
+                <p>
+                    I bridge the gap between heavy technical execution and business-driven product management. As a Data Scientist & Data Product Manager, my work centers on designing, building, and deploying analytics solutions that solve high-stakes industry problems. Whether it's structuring analytical pipelines or defining core technical requirements, I turn complex data footprints into clear, actionable products.
+                </p>
+            </div>
             
             <!-- Skills & Competencies Showcase Box -->
             <div class="skills-summary-grid">
                 <div class="skill-showcase-card">
-                    <h3 class="pm-title">📋 Product Management Skills</h3>
+                    <h3 class="pm-title">📋 Data Product Management</h3>
                     <ul>
-                        <li><strong>Data Product Strategy:</strong> Scoping data requirements, managing end-to-end analytics lifecycles, and translating complex metrics into business value.</li>
-                        <li><strong>Domain Expertise:</strong> Shipping analytics solutions within specialized sectors: FinTech (mortgages), Telecom networks, and EdTech (student data).</li>
-                        <li><strong>Cross-functional Alignment:</strong> Bridging the gap between engineering backlogs and executive-level analytical goals.</li>
+                        <li><strong>Data Product Strategy:</strong> Experience scoping data requirements, managing end-to-end analytics lifecycles, and translating complex metrics into actionable business value.</li>
+                        <li><strong>Domain Expertise:</strong> Shipping analytics solutions within highly specialized sectors: FinTech (mortgages), Telecommunications networks, and EdTech (student data analytics).</li>
+                        <li><strong>Cross-functional Alignment:</strong> Driving execution by bridging the communication gap between technical engineering backlogs and executive-level strategic goals.</li>
                     </ul>
                 </div>
                 
                 <div class="skill-showcase-card">
-                    <h3 class="dev-title">💻 Development & Analytics Skills</h3>
+                    <h3 class="dev-title">💻 Development & Execution</h3>
                     <ul>
-                        <li><strong>Predictive Modeling:</strong> Building machine learning workflows, risk scorecards, and predictive pipelines using Python and R.</li>
-                        <li><strong>Data Architecture & SQL:</strong> Structuring and optimizing complex queries to mine, transform, and clean messy real-world datasets.</li>
-                        <li><strong>Production Systems:</strong> Translating local Jupyter environments into reproducible scripts, frameworks, or operational codebases.</li>
+                        <li><strong>Predictive Workflows:</strong> Transforming messy datasets into clear statistical insights, tracking risk parameters, and standardizing workflows using Python and R.</li>
+                        <li><strong>Production Readiness:</strong> Building cleanly structured, documented, and reusable data repositories rather than isolated notebooks, ensuring reliable code deployments.</li>
+                        <li><strong>Analytical Rigor:</strong> Deep familiarity with enterprise environments (SQL, data modeling, and data engineering patterns) to isolate trends and manage complex data architectures.</li>
                     </ul>
                 </div>
             </div>
 
-            <a href="https://github.com/JuilienH" target="_blank" class="profile-btn">Explore GitHub Profile</a>
+            <div class="profile-btn-container">
+                <a href="https://github.com/JuilienH" target="_blank" class="profile-btn">Explore Full GitHub Profile</a>
+            </div>
         </header>
 
         <main>
@@ -228,7 +267,7 @@
             </section>
 
             <section id="contributions-section" style="display:none;">
-                <h2>Contributions & Shared Environments</h2>
+                <h2>Contributions & Ecosystem Work</h2>
                 <div class="repo-grid" id="forks-box"></div>
             </section>
         </main>
@@ -252,12 +291,6 @@
             const contributionsSection = document.getElementById('contributions-section');
 
             try {
-                const userRes = await fetch(`https://api.github.com/users/${username}`);
-                if(userRes.ok) {
-                    const userData = await userRes.json();
-                    if(userData.name) document.getElementById('user-name').innerText = userData.name;
-                }
-
                 const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
                 const repos = await repoRes.json();
                 
@@ -281,7 +314,7 @@
                             <h3 class="repo-title">
                                 <a href="${repo.html_url}" target="_blank">${repo.name}</a>
                             </h3>
-                            <p class="repo-desc">${repo.description || 'No custom repository description provided yet.'}</p>
+                            <p class="repo-desc">${repo.description || 'No project description added yet. Click to inspect repository files.'}</p>
                         </div>
                         <div class="repo-meta">
                             ${langSpan}
